@@ -28,5 +28,58 @@ print(wb.sheetnames)
 for sheet in wb:
     print(sheet.title)
 
+# 데이터 사용하기
+# 하나의 셀 데이터 사용하기
+c = ws['A4']
+
+# 셀 데이터 생성하기
+ws['A4'] = 4
+
+# 행과 열을 사용해서 셀에 접근하기 openpyxl.worksheet.Worksheet.cell() 메서드 사용
+d = ws.cell(row=4, column=2, value=10)
+
+# 여러 셀 데이터 접근하기
+cell_range = ws['A1':'C2']
+
+# 행과 열 데이터 사용하기
+col_c = ws['C']
+col_range = ws['C:D']
+row_10 = ws[10]
+row_range = ws[5:10]
+
+# openpyxl.worksheet.Worksheet.iter_rows() 메서드 사용하기
+print('access row cell')
+for row in ws.iter_rows(min_row=1, max_col=3, max_row=2):
+    for cell in row:
+        print(cell)
+
+# 열 데이터 접근
+print('access col cell')
+for col in ws.iter_cols(min_row=1, max_col=3, max_row=2):
+    for cell in col:
+        print(cell)
+
+# 파일의 모든 열과 행이 셀 탐색하기
+# openpyxl.worksheet.Worksheet.rows()
+print('rows() method')
+ws = wb.active
+ws['C9'] = 'hello world'
+print(tuple(ws.rows))
+
+# openpyxl.worksheet.Worksheet.columns()
+print('columns() method')
+print(tuple(ws.columns))
+
+# 데이터 저장
+# openpyxl.cell.Cell 객체를 갖고 있으면 값을 할당할 수 있음
+c.value = 'hello, world'
+print(c.value)
+
+d.value = 3.14
+print(d.value)
+
 # 엑셀 파일 저장
 wb.save('sample.xlsx')
+
+# 엑셀 파일 읽기
+from openpyxl import load_workbook
